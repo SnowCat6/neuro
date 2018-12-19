@@ -1,5 +1,4 @@
 import json
-from pprint import pprint
 from keras.utils.np_utils import to_categorical
 import numpy as np
 
