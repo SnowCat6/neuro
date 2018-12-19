@@ -26,8 +26,6 @@ class Profille:
         
         x_train = self.sequence_x()
         y_train = self.sequence_y()
-        print(x_train)
-        print(y_train)
 
         history = self.model().fit(x_train, y_train,
                     epochs=500,
@@ -38,7 +36,9 @@ class Profille:
     def evaluate(self):
         x_train = self.sequence_x()
         y_train = self.sequence_y()
-        return self.thisModel.evaluate(x_train, y_train)
+        return self.thisModel.evaluate(
+                    x_train, y_train,
+                    verbose=0)
 
     def predict(self, data_file='resp_predict.json'):
         with open(data_file, encoding='utf-8-sig') as f:
@@ -88,7 +88,7 @@ class Profille:
     def model(self):
 
         model = models.Sequential()
-        
+
         model.add(layers.Dense(256, input_shape=(self.dim_x,) , activation='relu'))
         model.add(layers.Dropout(0.5))
         model.add(layers.Dense(256, activation='relu'))
