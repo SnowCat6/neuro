@@ -17,11 +17,8 @@ with open(data_file, encoding='utf-8-sig') as f:
 
 profile     = "Предмет"
 while True:
-    print("Профиль:", profile)
-    print("-----------------------")
-
-    print("Empty name to end")
-    profile_name= input(profile + " name: ")
+    print("Empty to end")
+    profile_name= input("[" + profile + "]" + " name: ")
     item_name   = profile_name
     if profile_name == "":
         break
@@ -45,6 +42,8 @@ while True:
 
     data_json[item_name]["profiles"][profile]=profile_name
     data_json[item_name]["asks"]=x_train
+
+    print()
 
 with open(data_file, "w", encoding='utf-8-sig') as f:
     val=json.dumps(data_json, ensure_ascii=False, indent=4, sort_keys=True)
