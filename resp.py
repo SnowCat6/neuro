@@ -1,10 +1,12 @@
 from profile import Profille
 
-profile=Profille("Профессия")
+profile=Profille("Предмет")
 profile.load()
 
 history=profile.fit()
-#print("score:", profile.evaluate())
+
+#evaluate=profile.evaluate()
+#print("score:", evaluate)
+
 predict=profile.predict()
-#print(predict)
 profile.print_predict(predict)

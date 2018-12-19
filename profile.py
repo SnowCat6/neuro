@@ -13,16 +13,22 @@ class Profille:
     def __init__(self, label):
         self.label = label
 
-    def load(self, config_file='resp.json'):
+    def load(self, config_file='resp_config.json'):
 
         with open(config_file, encoding='utf-8-sig') as f:
             self.config_json = json.load(f)
 
-    def fit(self, data_file='resp_data.json'):
+        self.dim_x=len(self.config_json["asks"])
+
+    def fit(self, data_file='resp_fit.json'):
         with open(data_file, encoding='utf-8-sig') as f:
             self.data_json = json.load(f)
         
-        x_train, y_train = self.sequence()
+        x_train = self.sequence_x()
+        y_train = self.sequence_y()
+        print(x_train)
+        print(y_train)
+
         history = self.model().fit(x_train, y_train,
                     epochs=500,
                     verbose=0)
@@ -30,52 +36,55 @@ class Profille:
         return history
 
     def evaluate(self):
-        x_train, y_train = self.sequence()
+        x_train = self.sequence_x()
+        y_train = self.sequence_y()
         return self.thisModel.evaluate(x_train, y_train)
 
-    def predict(self, data_file='resp_data.json'):
+    def predict(self, data_file='resp_predict.json'):
         with open(data_file, encoding='utf-8-sig') as f:
             self.data_json = json.load(f)
 
-        x_train, _ = self.sequence()
+        x_train = self.sequence_x()
         return self.thisModel.predict(x_train)
 
-    def dims(self):
-        input_askes_len = len(self.config_json["asks"])
-        output_types_len= len(self.config_json["profiles"][self.label])
-        return(input_askes_len, output_types_len)
-
-    def sequence(self):
+    def sequence_x(self):
         x_train=[]
-        y_train=[]
-        input_askes_len, output_types_len = self.dims()
-        
         for x in self.data_json:
             asks = self.data_json[x]["asks"]
-            profiles = self.data_json[x]["profiles"]
             # in
-            x=[0]*input_askes_len
+            x=[0]*self.dim_x
             for ask in asks:
                 x[ask] = 1.0
             x_train.append(x)
+        return np.array(x_train)
+        
+    def sequence_y(self):
+
+        y_train=[]
+        self.labels={}
+        
+        for x in self.data_json:
+            label=self.data_json[x]["profiles"][self.label]
+            if label not in self.labels:
+                self.labels[label]=len(self.labels)
+        self.dim_y=len(self.labels)
+    
+        for x in self.data_json:
+            label=self.data_json[x]["profiles"][self.label]
             # out
-            label_ix = profiles[self.label]
-            y_train.append(to_categorical(label_ix, num_classes=output_types_len))
-
-        x_train=np.array(x_train)
-        y_train=np.array(y_train)
-
-        return (x_train, y_train)
+            y=to_categorical(self.labels[label], num_classes=self.dim_y)
+            y_train.append(y)
+        
+        return np.array(y_train)
 
     def model(self):
-        x_inputs, y_inputs = self.dims()
 
         model = models.Sequential()
-        model.add(layers.Dense(256, input_shape=(x_inputs,) , activation='relu'))
+        model.add(layers.Dense(256, input_shape=(self.dim_x,) , activation='relu'))
         model.add(layers.Dropout(0.5))
         model.add(layers.Dense(256, activation='relu'))
         model.add(layers.Dropout(0.5))
-        model.add(layers.Dense(y_inputs, activation='softmax'))
+        model.add(layers.Dense(self.dim_y, activation='softmax'))
         model.compile(loss='categorical_crossentropy',
                     optimizer='adam',
                     metrics=['accuracy'])
@@ -85,8 +94,19 @@ class Profille:
         return model
 
     def print_predict(self, value):
-        labels=self.config_json["profiles"][self.label]
 
+        profiles=[]
+        for i in self.data_json:
+            profiles.append(i)
+
+        labels = dict((v,k) for k,v in self.labels.items())
+
+        ii=0
         for x in value:
             ix=x.argmax()
-            print(labels[str(ix)], ":\t", round(x[ix]*100, 1), "%")
+            print(
+                profiles[ii]+":",
+                "\t", labels[ix],
+                "\t", round(x[ix]*100, 1), "%")
+            ii += 1
+
