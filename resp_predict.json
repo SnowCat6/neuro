@@ -1,14 +1,34 @@
 ﻿{
-    "SIP Phone" :{
-        "asks" : [0, 1, 2] 
+    "Mirror": {
+        "asks": [
+            3,
+            4
+        ]
     },
-    "Monitor" :{
-        "asks" : [0, 3, 4, 5]
+    "Monitor": {
+        "asks": [
+            0,
+            3,
+            4,
+            5
+        ]
     },
-    "Mirror" :{
-        "asks" : [3, 4]
+    "SIP Phone": {
+        "asks": [
+            0,
+            1,
+            2
+        ]
     },
-    "Skaf" :{
-        "asks" : []
-    }        
+    "Skaf": {
+        "asks": []
+    },
+    "Телефон": {
+        "asks": [
+            0,
+            1,
+            2,
+            5
+        ]
+    }
 }
