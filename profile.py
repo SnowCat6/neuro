@@ -64,13 +64,21 @@ class Profille:
         self.labels={}
         
         for x in self.data_json:
-            label=self.data_json[x]["profiles"][self.label]
+            profiles=self.data_json[x]["profiles"]
+            if self.label not in profiles:
+                continue
+            label=profiles[self.label]
+
             if label not in self.labels:
                 self.labels[label]=len(self.labels)
+
         self.dim_y=len(self.labels)
     
         for x in self.data_json:
-            label=self.data_json[x]["profiles"][self.label]
+            profiles=self.data_json[x]["profiles"]
+            if self.label not in profiles:
+                continue
+            label=profiles[self.label]
             # out
             y=to_categorical(self.labels[label], num_classes=self.dim_y)
             y_train.append(y)
@@ -80,11 +88,13 @@ class Profille:
     def model(self):
 
         model = models.Sequential()
+        
         model.add(layers.Dense(256, input_shape=(self.dim_x,) , activation='relu'))
         model.add(layers.Dropout(0.5))
         model.add(layers.Dense(256, activation='relu'))
         model.add(layers.Dropout(0.5))
         model.add(layers.Dense(self.dim_y, activation='softmax'))
+
         model.compile(loss='categorical_crossentropy',
                     optimizer='adam',
                     metrics=['accuracy'])
