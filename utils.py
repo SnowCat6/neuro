@@ -3,16 +3,9 @@ from pprint import pprint
 from keras.utils.np_utils import to_categorical
 import numpy as np
 
-def make_vector(json_elm, vector_size):
-    result=[0]*vector_size
-    for i in json_elm:
-        result[int(i)] = float(json_elm[i])
-    return result
-
 def make_sequence(json, data_json, label):
     x_train=[]
     y_train=[]
-
     input_askes_len = len(json["asks"])
     output_types_len= len(json["profiles"][label])
     
@@ -20,7 +13,10 @@ def make_sequence(json, data_json, label):
         asks = data_json[x]["asks"]
         profiles = data_json[x]["profiles"]
         # in
-        x_train.append(make_vector(asks, input_askes_len))
+        x=[0]*input_askes_len
+        for ask in asks:
+            x[ask] = 1.0
+        x_train.append(x)
         # out
         label_ix = profiles[label]
         y_train.append(to_categorical(label_ix, num_classes=output_types_len))
