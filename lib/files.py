@@ -1,4 +1,5 @@
 import json
+import numpy as np
 
 config_file     = 'resp_config.json'
 fit_file        = 'resp_fit.json'
@@ -31,6 +32,20 @@ class io:
         except:
             return {}
 
+    def new_ask(self, ask_value):
+        asks = self.asks()
+        keys = list(asks.keys())
+        if ask_value in keys:
+            return
+
+        asks[self.new_ask_index()] = ask_value
+
+    def new_ask_index(self):
+        asks = self.asks()
+        keys = list(asks.keys())
+        argMax=np.argmax(list(map(int, keys)))+1
+        return str(argMax)
+        
     def entryes(self):
         return self.json
 
