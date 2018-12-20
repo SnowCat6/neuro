@@ -51,7 +51,9 @@ class io:
 
     def entry(self, entry_name):
         entryes = self.entryes()
-        if entry_name not in entryes:
+        try:
+            return entryes[entry_name]
+        except:
             entryes[entry_name] = {}
-
-        return entryes[entry_name]
+        finally:
+            return entryes[entry_name]

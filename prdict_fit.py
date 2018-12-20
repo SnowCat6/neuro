@@ -14,14 +14,14 @@ while True:
     if item_name == "":
         break
 
+    entry = io_data.entry(item_name)
     x_train = []
 
     for i in asks:
         answer=input("[" + item_name + "] " + i + " " + asks[i] + "?:n ")
-        if (answer != ""):
+        if (answer != "" and answer != "n"):
             x_train.append(i)
 
-    entry = io_data.entry(item_name)
     entry["asks"]=x_train
 
     print()

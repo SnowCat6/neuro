@@ -10,24 +10,27 @@ asks    = io_config.asks()
 
 while True:
     print("Empty to end")
-    profile_name= input("[" + profile + "]" + " name: ")
-    if profile_name == "":
+    item_name= input("[" + profile + "]" + " name: ")
+    if item_name == "":
         break
 
-    x_train = []
+    entry = io_data.entry(item_name)
+    if  "asks" not in entry or len(entry["asks"]) == 0:
+        x_train = []
+        print("Enter answers...")
+        for i in asks:
+            answer=input("[" + item_name + "] " + i + " " + asks[i] + "?:n ")
+            if (answer != "" and answer != "n"):
+                x_train.append(i)
+        entry["asks"] = x_train
 
-    for i in asks:
-        answer=input("[" + profile_name + "] " + i + " " + asks[i] + "?:n ")
-        if (answer == "y"):
-            x_train.append(i)
-
-    entry = io_data.entry(profile_name)
+    print("Enter profile...")
     try:
+        profile_name= input("[" + profile + "]: " + entry["profiles"][profile] + " ")
         entry["profiles"][profile]=profile_name
     except:
+        profile_name= input("[" + profile + "] " + ": ")
         entry["profiles"] = { profile: profile_name}
-
-    entry["asks"] = x_train
 
     print()
 
