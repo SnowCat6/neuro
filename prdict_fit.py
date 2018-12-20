@@ -27,3 +27,5 @@ while True:
     print()
 
 io_data.write()
+
+import predict

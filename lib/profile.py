@@ -122,8 +122,8 @@ class Profille:
         for x in value:
             ix=x.argmax()
             print(
-                profiles[ii]+":",
-                "\t", labels[ix],
-                "\t", round(x[ix]*100, 1), "%")
+                profiles[ii].ljust(15)+":",
+                labels[ix].ljust(15),
+                round(x[ix]*100, 1), "%")
             ii += 1
 
