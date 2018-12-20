@@ -27,7 +27,8 @@ while True:
     print("Enter profile...")
     try:
         profile_name= input("[" + profile + "]: " + entry["profiles"][profile] + " ")
-        entry["profiles"][profile]=profile_name
+        if profile_name != "":
+            entry["profiles"][profile]=profile_name
     except:
         profile_name= input("[" + profile + "] " + ": ")
         entry["profiles"] = { profile: profile_name}
