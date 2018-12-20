@@ -1,27 +1,28 @@
 import json
-from keras.utils.np_utils import to_categorical
 import numpy as np
+
+from .files import io
+from .files import config_file
+from .files import fit_file
+from .files import predict_file
 
 # Importing the Keras libraries and packages
 import keras
 from keras import models
 from keras import layers
 from keras import optimizers
+from keras.utils.np_utils import to_categorical
 
 class Profille:
     def __init__(self, label):
         self.label = label
 
-    def load(self, config_file='resp_config.json'):
+    def load(self, config_file=config_file):
+        self.io_config = io(config_file)
+        self.dim_x=len(self.io_config.asks())
 
-        with open(config_file, encoding='utf-8-sig') as f:
-            self.config_json = json.load(f)
-
-        self.dim_x=len(self.config_json["asks"])
-
-    def fit(self, data_file='resp_fit.json'):
-        with open(data_file, encoding='utf-8-sig') as f:
-            self.data_json = json.load(f)
+    def fit(self, data_file=fit_file):
+        self.io_data = io(data_file)
         
         x_train = self.sequence_x()
         y_train = self.sequence_y()
@@ -39,22 +40,26 @@ class Profille:
                     x_train, y_train,
                     verbose=0)
 
-    def predict(self, data_file='resp_predict.json'):
-        with open(data_file, encoding='utf-8-sig') as f:
-            self.data_json = json.load(f)
+    def predict(self, data_file=predict_file):
+        self.io_data = io(data_file)
 
         x_train = self.sequence_x()
         return self.thisModel.predict(x_train)
 
     def sequence_x(self):
         x_train=[]
-        for x in self.data_json:
-            asks = self.data_json[x]["asks"]
-            # in
+        all_asks=list(self.io_config.asks().keys())
+
+        entryes = self.io_data.entryes()
+        for x in entryes:
+            asks = entryes[x]["asks"]
             x=[0]*self.dim_x
             for ask in asks:
-                x[ask] = 1.0
+                ask_ix = all_asks.index(ask)
+                x[ask_ix] = 1.0
+
             x_train.append(x)
+
         return np.array(x_train)
         
     def sequence_y(self):
@@ -62,8 +67,9 @@ class Profille:
         y_train=[]
         self.labels={}
         
-        for x in self.data_json:
-            profiles=self.data_json[x]["profiles"]
+        entryes = self.io_data.entryes()
+        for x in entryes:
+            profiles=entryes[x]["profiles"]
             if self.label not in profiles:
                 continue
             label=profiles[self.label]
@@ -73,8 +79,9 @@ class Profille:
 
         self.dim_y=len(self.labels)
     
-        for x in self.data_json:
-            profiles=self.data_json[x]["profiles"]
+        entryes = self.io_data.entryes()
+        for x in entryes:
+            profiles=entryes[x]["profiles"]
             if self.label not in profiles:
                 continue
             label=profiles[self.label]
@@ -105,7 +112,8 @@ class Profille:
     def print_predict(self, value):
 
         profiles=[]
-        for i in self.data_json:
+        entryes = self.io_data.entryes()
+        for i in entryes:
             profiles.append(i)
 
         labels = dict((v,k) for k,v in self.labels.items())

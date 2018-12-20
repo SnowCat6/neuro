@@ -1,4 +1,4 @@
-from profile import Profille
+from lib.profile import Profille
 
 profile=Profille("Предмет")
 profile.load()
