@@ -28,7 +28,7 @@ class Profille:
         y_train = self.sequence_y()
 
         history = self.model().fit(x_train, y_train,
-                    epochs=500,
+                    epochs=1000,
                     verbose=0)
 
         return history
@@ -120,10 +120,13 @@ class Profille:
 
         ii=0
         for x in value:
-            ix=x.argmax()
+            args=np.argsort(-x)
+            ix  = args[0]
+            ix2 = args[1]
             print(
-                profiles[ii].ljust(15)+":",
-                labels[ix].ljust(15),
-                round(x[ix]*100, 1), "%")
+                profiles[ii].ljust(20),
+                (labels[ix] + " (" + str(round(x[ix]*100, 1)) + "%)").ljust(20),
+                (labels[ix2]+ " (" + str(round(x[ix2]*100, 1))+ "%)").ljust(20)
+                )
             ii += 1
 
