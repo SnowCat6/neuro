@@ -45,7 +45,21 @@ class io:
         keys = list(asks.keys())
         argMax=np.argmax(list(map(int, keys)))+1
         return str(argMax)
-        
+
+    def labels(self, label):
+        labels={}
+        entryes = self.entryes()
+        for x in entryes:
+            try:
+                l=entryes[x]["profiles"][label]
+                if l in labels:
+                    continue
+                labels[l]=len(labels)
+            except:
+                continue
+
+        return labels
+
     def entryes(self):
         return self.json
 
@@ -57,3 +71,40 @@ class io:
             entryes[entry_name] = {}
         finally:
             return entryes[entry_name]
+
+    def fit_answers(self, item_name):
+        entry = self.entry(item_name)
+        if "asks" in entry:
+            return False
+
+        print("Enter answers")
+        x_train = []
+        asks=self.asks()
+        for i in asks:
+            answer=input("[" + item_name + "] " + i + " " + asks[i] + "?:n ")
+            if (answer != "" and answer != "n"):
+                x_train.append(i)
+
+        entry["asks"]=x_train
+        return True
+
+    def fit_profile(self, item_name, profile):
+        entry = self.entry(item_name)
+        try:
+            if profile in entry["profiles"]:
+                return False
+        except:
+            pass
+
+        print("Enter profile")
+        profile_name = input("[" + profile + "]: " + item_name + " ")
+        if profile_name == "":
+            return False
+
+        try:
+            entry["profiles"][profile]=profile_name
+        except:
+            entry["profiles"] = { profile: profile_name}
+
+        return True
+

@@ -1,5 +1,4 @@
-from lib.files import io
-from lib.files import config_file
+from lib.files import io, config_file
 
 io_config   = io(config_file)
 
