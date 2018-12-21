@@ -1,10 +1,13 @@
 from lib.files import io, config_file, fit_file as data_file
+from lib.cmd import Command
 
 io_config   = io(config_file)
 io_data     = io(data_file)
 
-profile = "Предмет"
-asks    = io_config.asks()
+cmd=Command()
+cmd.parse_arg(io_config, io_data)
+
+profile = io_config.profile()
 
 def fit(item_name):
     bOK = io_data.fit_answers(item_name)
@@ -15,9 +18,9 @@ def fit(item_name):
 for item_name in io_data.entryes():
     fit(item_name)
 
+print("Add new item, empty to end")
 while True:
-    print("Add new item, empty to end")
-    item_name= input("[" + profile + "]" + " name: ")
+    item_name= input("[" + profile + "]" + " new name: ")
     if item_name == "":
         break
 

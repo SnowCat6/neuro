@@ -9,6 +9,7 @@ class io:
     def __init__(self, file_name):
         self.file_name = file_name
         self.encoding = 'utf-8-sig'
+        self.arg_profile = ""
         self.load()
 
     def load(self):
@@ -108,3 +109,26 @@ class io:
 
         return True
 
+    def profile(self, default_profile="Предмет"):
+        try:
+            if self.arg_profile != "":
+                return self.arg_profile
+        except:
+            pass
+
+        try:
+            return self.json["default_profile"]
+        except:
+            return default_profile
+
+    def set_profile(self, profile):
+        self.json["default_profile"] = profile
+
+    def remove(self, profile):
+        entryes = self.entryes()
+        for item_name in entryes:
+            try:
+                entry = self.entry(item_name)
+                del entry["profiles"][profile]
+            except:
+                pass
