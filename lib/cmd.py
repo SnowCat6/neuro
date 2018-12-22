@@ -6,16 +6,16 @@ class Command:
 
         bRemove=False
         bReNew=False
-        config.bAppend=False
+        bList=False
 
         try:
-            opts, args = getopt.getopt(argv,"hp:rna",["profile="])
+            opts, args = getopt.getopt(argv,"hp:rnal",["profile="])
         except:
             return
 
         for opt, arg in opts:
             if opt == '-h':
-                print ('use: -p <profile>')
+                print ('use: -p <profile> [-r -n -l -h]')
                 sys.exit()
             elif opt in ["-p", "--profile"]:
                 config.set_profile(arg)
@@ -24,17 +24,20 @@ class Command:
                 bRemove=True
             elif opt in ["-n"]:
                 bReNew=True
-            elif opt in ["-a"]:
-                config.bAppend=True
-
+            elif opt in ["-l"]:
+                bList=True
         sys.argv = [sys.argv[0]]
+
+        if bList:
+            print("List exists profiles:")
+            for x in data.profiles():
+                print(x)
 
         if bRemove:
             print("Remove profile " + config.profile())
             data.remove(config.profile())
             data.write()
-            sys.exit()
 
         if bReNew:
-            print("Re-new " + config.profile())
+            print("Re-new profile " + config.profile())
             data.remove(config.profile())

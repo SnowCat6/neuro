@@ -132,3 +132,14 @@ class io:
                 del entry["profiles"][profile]
             except:
                 pass
+
+    def profiles(self):
+        result=set()
+        entryes=self.entryes()
+        for x in entryes:
+            try:
+                for profile in entryes[x]["profiles"]:
+                    result.add(profile)
+            except:
+                pass
+        return result
