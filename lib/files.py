@@ -73,14 +73,14 @@ class io:
         finally:
             return entryes[entry_name]
 
-    def fit_answers(self, item_name):
+    def fit_answers(self, config, item_name):
         entry = self.entry(item_name)
         if "asks" in entry:
             return False
 
         print("Enter answers")
         x_train = []
-        asks=self.asks()
+        asks    = config.asks()
         for i in asks:
             answer=input("[" + item_name + "] " + i + " " + asks[i] + "?:n ")
             if (answer != "" and answer != "n"):

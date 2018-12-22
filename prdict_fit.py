@@ -11,7 +11,7 @@ profile = io_config.profile()
 asks    = io_config.asks()
 
 def fit(item_name):
-    if io_data.fit_answers(item_name):
+    if io_data.fit_answers(io_config, item_name):
         print()
 
 for item_name in io_data.entryes():

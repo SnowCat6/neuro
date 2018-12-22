@@ -10,7 +10,7 @@ cmd.parse_arg(io_config, io_data)
 profile = io_config.profile()
 
 def fit(item_name):
-    bOK = io_data.fit_answers(item_name)
+    bOK = io_data.fit_answers(io_config, item_name)
     bOK = io_data.fit_profile(item_name,profile) or bOK
     if bOK:
         print()
