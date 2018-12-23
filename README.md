@@ -15,7 +15,7 @@ Simple neuronet to learn and classify by answers
 - Run classify_db.py and add main classify database for classify by learning database
 
 # Use
-- append -p <profile> to swith to new profile of learn and classify (learn.py -p new_profile)
+- append -p <profile> to swith at new profile of learn and classify (learn.py -p new_profile)
 - append -r to remove current profile (learn.py -p new_profile -r)
 - append -l to list profiles learn.py -l
 - append -n to re-new all learn database items woth new defines (learn.py -p new_profile -n)
