@@ -1,9 +1,14 @@
-from lib.io_classes import io_config, io_data
-from lib.io_classes import config_file
+from lib.io_classes import io_config, io_fit_data
+from lib.io_classes import config_file, fit_file as data_file
+from lib.cmd import Command
 
 config   = io_config(config_file)
-asks    = config.asks()
+data     = io_fit_data(data_file)
 
+cmd = Command()
+cmd.parse_arg(config, data)
+
+asks    = config.asks()
 print("Добавление новых вопросов, пустая строка для завешения")
 while True:
     input_title ="Новый вопрос: "
