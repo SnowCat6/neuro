@@ -31,21 +31,26 @@ class io:
         try:
             return self.json["asks"]
         except:
-            return {}
+            self.json["asks"] = {}
+            return self.json["asks"]
 
     def new_ask(self, ask_value):
         asks = self.asks()
-        keys = list(asks.keys())
+        keys = list(asks.values())
         if ask_value in keys:
             return
 
-        asks[self.new_ask_index()] = ask_value
+        askIx = self.new_ask_index()
+        asks[askIx] = ask_value
 
     def new_ask_index(self):
-        asks = self.asks()
-        keys = list(asks.keys())
-        argMax=np.argmax(list(map(int, keys)))+1
-        return str(argMax)
+        try:
+            asks = self.asks()
+            keys = list(asks.keys())
+            argMax=np.argmax(list(map(int, keys)))+1
+            return str(argMax)
+        except:
+            return str(0)
 
     def labels(self, label):
         labels={}
@@ -78,11 +83,12 @@ class io:
         if "asks" in entry:
             return False
 
-        print("Enter answers")
+        print("Введите ответы для {0}".format(item_name))
         x_train = []
         asks    = config.asks()
         for i in asks:
-            answer=input("[" + item_name + "] " + i + " " + asks[i] + "?:n ")
+            input_title = "{0} {2} (y/n): ".format(item_name, i, asks[i])
+            answer=input(input_title)
             if (answer != "" and answer != "n"):
                 x_train.append(i)
 
@@ -97,8 +103,9 @@ class io:
         except:
             pass
 
-        print("Enter profile")
-        profile_name = input("[" + profile + "]: " + item_name + " ")
+        print("Введите опеределение {0} для {1}".format(profile, item_name))
+        input_title = "Какой {1} {0}?: ".format(profile, item_name)
+        profile_name= input(input_title)
         if profile_name == "":
             return False
 
@@ -109,7 +116,7 @@ class io:
 
         return True
 
-    def profile(self, default_profile="Предмет"):
+    def profile(self, default_profile="Объект"):
         try:
             if self.arg_profile != "":
                 return self.arg_profile

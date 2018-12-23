@@ -18,9 +18,10 @@ def fit(item_name):
 for item_name in io_data.entryes():
     fit(item_name)
 
-print("Add new item, empty to end")
+print("Создать нофую референтную запись, пустая строка для завершения".format(profile))
 while True:
-    item_name= input("[" + profile + "]" + " new name: ")
+    input_title="Имя для нового референта: ".format(profile)
+    item_name= input(input_title)
     if item_name == "":
         break
 

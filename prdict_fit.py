@@ -17,9 +17,10 @@ def fit(item_name):
 for item_name in io_data.entryes():
     fit(item_name)
 
-print("Add new item, empty to end")
+print("Добавить запись в базу данных, пустая строка для завершения".format(profile))
 while True:
-    item_name   = input("[" + profile + "]" + " new name: ")
+    input_title = "Название дя новой записи: ".format(profile)
+    item_name   = input(input_title)
     if item_name == "":
         break
     

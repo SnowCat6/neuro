@@ -13,15 +13,16 @@ profile     = io_config.profile()
 cnn_profile = Profille()
 cnn_profile.load(io_config, io_fit_data, io_predict_data)
 
-print("Fit profile " + profile)
+print("Обучение по референту {0}".format(profile))
 history=cnn_profile.fit()
 if history  is  None:
-    print("No entryes to fit")
+    print("Нет референтов")
     exit()
 
 #evaluate=profile.evaluate()
 #print("score:", evaluate)
 
-print("Predict profile " + profile)
+print("Соответствия по референту {0} ".format(profile))
+print("Запись в БД".ljust(20), "Вероятность макс.".ljust(20), "Вероятность след.".ljust(20))
 predict=cnn_profile.predict()
 cnn_profile.print_predict(predict)
