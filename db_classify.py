@@ -8,6 +8,9 @@ data     = io_data(data_file)
 cmd = Command()
 cmd.parse_arg(config, data)
 
+print("Добавить запись в базу данных")
+print()
+
 profile = config.profile()
 asks    = config.asks()
 
@@ -21,7 +24,7 @@ for item_name in data.entryes():
 if bOK:
     print()
 
-print("Добавить запись в базу данных, пустая строка для завершения")
+print("Пустая строка для завершения")
 while True:
     input_title = "Название дя новой записи: "
     item_name   = input(input_title)

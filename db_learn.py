@@ -8,6 +8,9 @@ data     = io_fit_data(data_file)
 cmd = Command()
 cmd.parse_arg(config, data)
 
+print("Записи для обучения")
+print()
+
 profile = config.profile()
 
 def fit(item_name):

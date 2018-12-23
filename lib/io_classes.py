@@ -151,7 +151,7 @@ class io_fit_data(io_data):
             pass
 
 #        print("Введите опеределение {0} для {1}".format(profile, item_name))
-        input_title = "Какой {1} {0}?: ".format(profile, item_name)
+        input_title = "На сколько {1} {0}?: ".format(profile, item_name)
         profile_name= input(input_title)
         if profile_name == "":
             return False

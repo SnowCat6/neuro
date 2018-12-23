@@ -8,8 +8,11 @@ data     = io_fit_data(data_file)
 cmd = Command()
 cmd.parse_arg(config, data)
 
+print("Добавление новых вопросов")
+print()
+
 asks    = config.asks()
-print("Добавление новых вопросов, пустая строка для завешения")
+print("Пустая строка для завешения")
 while True:
     input_title ="Новый вопрос: "
     ask_value   = input(input_title)
