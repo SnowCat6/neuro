@@ -15,4 +15,4 @@ while True:
 
 config.write()
 
-import predict
+import classify

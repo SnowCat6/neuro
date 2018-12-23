@@ -33,4 +33,4 @@ while True:
 
 data.write()
 
-import predict
+import classify
