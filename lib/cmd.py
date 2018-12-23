@@ -1,7 +1,8 @@
 import sys, getopt
+from .io_classes import io_config, io_data
 
 class Command:
-    def parse_arg(self, config, data):
+    def parse_arg(self, config : io_config, data : io_data):
         argv = sys.argv[1:]
 
         bRemove=False

@@ -1,7 +1,7 @@
 import json
 import numpy as np
 
-from .files import io,  config_file, fit_file,  predict_file
+from .io_classes import io_config, io_data
 
 # Importing the Keras libraries and packages
 import keras
@@ -9,11 +9,11 @@ from keras import models, layers, optimizers
 from keras.utils.np_utils import to_categorical
 
 class Profille:
-    def load(self, io_config, io_fit_data, io_prdict_data):
-        self.io_config      = io_config
+    def load(self, config : io_config, io_fit_data : io_data, io_prdict_data : io_data):
+        self.io_config      = config
         self.io_fit_data    = io_fit_data
         self.io_prdict_data = io_prdict_data
-        self.label          = io_config.profile()
+        self.label          = config.profile()
 
         self.dim_x          = len(self.io_config.asks())
 

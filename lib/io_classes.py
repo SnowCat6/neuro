@@ -9,7 +9,6 @@ class io:
     def __init__(self, file_name):
         self.file_name = file_name
         self.encoding = 'utf-8-sig'
-        self.arg_profile = ""
         self.load()
 
     def load(self):
@@ -26,6 +25,26 @@ class io:
                 f.write(val)
         finally:
             return
+
+class io_config(io):
+    def __init__(self, file_name):
+        super().__init__(file_name)
+        self.arg_profile = ""
+
+    def profile(self, default_profile="Объект"):
+        try:
+            if self.arg_profile != "":
+                return self.arg_profile
+        except:
+            pass
+
+        try:
+            return self.json["default_profile"]
+        except:
+            return default_profile
+
+    def set_profile(self, profile):
+        self.json["default_profile"] = profile
 
     def asks(self):
         try:
@@ -51,6 +70,10 @@ class io:
             return str(argMax)
         except:
             return str(0)
+
+class io_data(io):
+    def __init__(self, file_name):
+        super().__init__(file_name)
 
     def labels(self, label):
         labels={}
@@ -78,7 +101,7 @@ class io:
         finally:
             return entryes[entry_name]
 
-    def fit_answers(self, config, item_name):
+    def fit_answers(self, config : io_config, item_name):
         entry = self.entry(item_name)
         if "asks" in entry:
             return False
@@ -103,7 +126,7 @@ class io:
         except:
             pass
 
-        print("Введите опеределение {0} для {1}".format(profile, item_name))
+#        print("Введите опеределение {0} для {1}".format(profile, item_name))
         input_title = "Какой {1} {0}?: ".format(profile, item_name)
         profile_name= input(input_title)
         if profile_name == "":
@@ -115,21 +138,6 @@ class io:
             entry["profiles"] = { profile: profile_name}
 
         return True
-
-    def profile(self, default_profile="Объект"):
-        try:
-            if self.arg_profile != "":
-                return self.arg_profile
-        except:
-            pass
-
-        try:
-            return self.json["default_profile"]
-        except:
-            return default_profile
-
-    def set_profile(self, profile):
-        self.json["default_profile"] = profile
 
     def remove(self, profile):
         entryes = self.entryes()
@@ -149,4 +157,4 @@ class io:
                     result.add(profile)
             except:
                 pass
-        return result
+        return result        
