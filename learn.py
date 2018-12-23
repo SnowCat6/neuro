@@ -1,11 +1,11 @@
-from lib.io_classes import io_config, io_data
+from lib.io_classes import io_config, io_fit_data
 from lib.io_classes import config_file, fit_file as data_file
 from lib.cmd import Command
 
 config   = io_config(config_file)
-data     = io_data(data_file)
+data     = io_fit_data(data_file)
 
-cmd=Command()
+cmd = Command()
 cmd.parse_arg(config, data)
 
 profile = config.profile()

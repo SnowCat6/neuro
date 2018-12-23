@@ -5,7 +5,7 @@ from lib.cmd import Command
 config   = io_config(config_file)
 data     = io_data(data_file)
 
-cmd=Command()
+cmd = Command()
 cmd.parse_arg(config, data)
 
 profile = config.profile()

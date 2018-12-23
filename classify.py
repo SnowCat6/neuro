@@ -1,13 +1,13 @@
-from lib.io_classes import io_config, io_data
+from lib.io_classes import io_config, io_data, io_fit_data
 from lib.io_classes import io, config_file, fit_file, predict_file
 from lib.profile import Profille
 from lib.cmd import Command
 
 config       = io_config(config_file)
-fit_data     = io_data(fit_file)
+fit_data     = io_fit_data(fit_file)
 predict_data = io_data(predict_file)
 
-cmd=Command()
+cmd = Command()
 cmd.parse_arg(config, fit_data)
 profile     = config.profile()
 

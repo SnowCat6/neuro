@@ -101,6 +101,17 @@ class io_data(io):
         finally:
             return entryes[entry_name]
 
+    def profiles(self):
+        result=set()
+        entryes=self.entryes()
+        for x in entryes:
+            try:
+                for profile in entryes[x]["profiles"]:
+                    result.add(profile)
+            except:
+                pass
+        return result      
+
     def fit_answers(self, config : io_config, item_name):
         entry = self.entry(item_name)
         if "asks" in entry:
@@ -117,6 +128,19 @@ class io_data(io):
 
         entry["asks"]=x_train
         return True
+
+    def remove_profile(self, profile):
+        entryes = self.entryes()
+        for item_name in entryes:
+            try:
+                entry = self.entry(item_name)
+                del entry["profiles"][profile]
+            except:
+                pass
+
+class io_fit_data(io_data):
+    def __init__(self, file_name):
+        super().__init__(file_name)
 
     def fit_profile(self, item_name, profile):
         entry = self.entry(item_name)
@@ -138,23 +162,3 @@ class io_data(io):
             entry["profiles"] = { profile: profile_name}
 
         return True
-
-    def remove(self, profile):
-        entryes = self.entryes()
-        for item_name in entryes:
-            try:
-                entry = self.entry(item_name)
-                del entry["profiles"][profile]
-            except:
-                pass
-
-    def profiles(self):
-        result=set()
-        entryes=self.entryes()
-        for x in entryes:
-            try:
-                for profile in entryes[x]["profiles"]:
-                    result.add(profile)
-            except:
-                pass
-        return result        

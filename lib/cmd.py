@@ -36,9 +36,9 @@ class Command:
 
         if bRemove:
             print("Remove profile " + config.profile())
-            data.remove(config.profile())
+            data.remove_profile(config.profile())
             data.write()
 
         if bReNew:
             print("Re-new profile " + config.profile())
-            data.remove(config.profile())
+            data.remove_profile(config.profile())
